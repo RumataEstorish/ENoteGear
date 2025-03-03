@@ -11,7 +11,7 @@ Evernote Tizen Wearable client
 <img alt="" src="screenshots/Circle6.png" width="200"/>
 <img alt="" src="screenshots/Circle7.png" width="200"/>
 <img alt="" src="screenshots/Circle8.png" width="200"/>
-<img alt="" src="screenshots/Screen1.png" width="200"/><img alt="" src="screenshots/Circle1.png" width="200"/>
+<img alt="" src="screenshots/Screen1.png" width="200"/>
 <img alt="" src="screenshots/Screen2.png" width="200"/>
 <img alt="" src="screenshots/Screen3.png" width="200"/>
 <img alt="" src="screenshots/Screen4.png" width="200"/>
