@@ -1,0 +1,10 @@
+#noteContent{
+	width:90%;
+	margin: 0px 20px;
+}
+
+.ui-page.ui-scroll-on .ui-content {
+  margin-top: 7.625rem;
+  padding-bottom: 7.125rem;
+  padding-top: 0;
+}

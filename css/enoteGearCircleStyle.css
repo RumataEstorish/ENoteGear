@@ -1,0 +1,63 @@
+.popup-icon::before{
+	position: absolute;
+	content: "";
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	-webkit-mask-size: 100% 100%;
+	background-color: rgb(8, 8, 8);
+	-webkit-mask-repeat: no-repeat;
+}
+
+.info-icon::before {
+	-webkit-mask-image: url(../images/info.png);
+}
+
+.move-icon::before {
+	-webkit-mask-image: url(../images/move.png);
+}
+
+.tags-icon::before {
+	-webkit-mask-image: url(../images/tag.png);
+}
+
+.rename-icon::before {
+	-webkit-mask-image: url(../images/rename.png);
+}
+
+.delete-icon::before {
+	-webkit-mask-image: url(../images/delete.png);
+}
+
+.restore-icon::before {
+	-webkit-mask-image: url(../images/restore.png);
+}
+
+.add-icon::before{
+	-webkit-mask-image: url(../images/add.png);
+}
+
+.view-icon::before{
+	-webkit-mask-image: url(../images/view.png);
+}
+
+.settings-icon::before{
+	-webkit-mask-image: url(../images/settings.png);
+}
+
+.notes-icon::before{
+	-webkit-mask-image: url(../images/note.png);
+}
+
+.notebooks-icon::before{
+	-webkit-mask-image: url(../images/notebook.png);
+}
+
+.user-icon::before{
+	-webkit-mask-image: url(../images/user.png);
+}
+
+.sync-icon::before{
+	-webkit-mask-image: url(../images/sync.png);
+}

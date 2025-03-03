@@ -1,0 +1,72 @@
+<resources>
+    <application name="GearHub" >
+        <serviceProfile
+            id="/system/enotegear"
+            name="ENoteGear"
+            role="consumer"
+            serviceTimeout="25"
+            version="2.0" >
+            <supportedTransports>
+                <transport type="TRANSPORT_BT" />
+                <transport type="TRANSPORT_WIFI" />
+            </supportedTransports>
+
+           <serviceChannel
+                id="98"
+                dataRate="high"
+                priority="high"
+                reliability="enable" >
+            </serviceChannel>
+           <serviceChannel
+                id="99"
+                dataRate="high"
+                priority="high"
+                reliability="enable" >
+            </serviceChannel>
+            <serviceChannel
+                id="104"
+                dataRate="high"
+                priority="low"
+                reliability="enable" >
+            </serviceChannel>
+            <serviceChannel
+                id="105"
+                dataRate="high"
+                priority="low"
+                reliability="enable" >
+            </serviceChannel>
+            <serviceChannel
+                id="106"
+                dataRate="high"
+                priority="low"
+                reliability="enable" >
+            </serviceChannel>
+            <serviceChannel
+                id="107"
+                dataRate="high"
+                priority="low"
+                reliability="enable" >
+            </serviceChannel>
+            <serviceChannel
+                id="108"
+                dataRate="high"
+                priority="low"
+                reliability="enable" >
+            </serviceChannel>
+            <serviceChannel
+                id="109"
+                dataRate="high"
+                priority="low"
+                reliability="enable" >
+            </serviceChannel>
+            <serviceChannel
+                id="110"
+                dataRate="high"
+                priority="low"
+                reliability="enable" >
+            </serviceChannel>
+            
+        </serviceProfile>
+    </application>
+
+</resources>

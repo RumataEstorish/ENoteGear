@@ -1,0 +1,96 @@
+/*jshint unused: false*/
+/*jslint laxbreak: true*/
+
+var LANG_JSON_DATA = {
+	ACTIONS : "Azioni",
+	SETTINGS : "Impostazioni",
+	LOADING_NOTES : "Carica note",
+	CREATE_NOTE : "Crea nota",
+	SYNC : "Sincronizza",
+	FULL_SYNC : "Sincronizza tutto",
+	AT_LAUNCH : "All'avvio",
+	SHOW : "Mostra",
+	NOTES_LIST : "Lista note",
+	NOTES_UPDATED_DATE : "Aggiornato",
+	NOTES_TAGS : "Tags",
+	THEME : "Tema",
+	NOTE : "Nota",
+	NOTES : "Note",
+	NOTEBOOK : "Notebook",
+	TITLE : "Titolo",
+	TAGS : "Tags",
+	CONTENT : "Contenuto",
+	OK : "Ok",
+	CANCEL : "Cancella",
+	NOTEBOOKS : "Blocchi Note",
+	ENTER_CONTENT : "Inserisci contenuto",
+	ENTER_TITLE : "Inserisci titolo",
+	INFO : "Info",
+	RENAME : "Rinomina",
+	MOVE : "Sposta",
+	DELETE : "Cancella",
+	RESTORE : "Ripristina",
+	SELECT_THEME : "Seleziona tema",
+	BLUE : "Blu",
+	BROWN : "Marrone",
+	SELECT_NOTEBOOK : "Seleziona blocco note",
+	NOTE_UPDATE_CONFIRM : "Nota modificata. Sincronizzare ora?",
+	NOTE_CREATED : "Nota creata",
+	NOTE_UPDATED : "Nota aggiornata",
+	NOTE_DELETED : "Nota cancellata",
+	CONNECT_TO_EVERNOTE : "Per favore, connettersi ad Evernote dal GearHub e premere OK",
+	NO_CHANGES : "Nessuna modifica",
+	SYNCHRONIZATION : "Sincronizzazione",
+	TITLE_CAN_T_BE_EMPTY : "Il titolo non puт essere vuoto",
+	NO_NOTEBOOKS : "Nessun blocco note",
+	DELETE_CONFIRM : "Confermare cancellazione",
+	TRASH : "Cestino",
+	WAIT_CONTENT : "Contenuto in attesa",
+	NO_TYPEGEAR : "Per favore, installare TypeGear dallo store del Gear. E'gratuito.",
+
+	NOTES_SORTING : "Note di smistamento",
+	OLD_NEW : "Vecchio-Nuovo",
+	NEW_OLD : "Nuovo-Vecchio",
+	A_Z : "A-Z",
+	Z_A : "Z-A",
+
+	/* 1.0.4 */
+	VIEW : "Vista",
+	USER : "Profilo",
+	USER_NAME : "Nome",
+	USER_EMAIL : "Email",
+	USER_EVERNOTE_EMAIL : "Evernote posta in arrivo",
+	USER_DATA_USAGE : "Utilizzo dei dati",
+	USER_DATA_USAGE_PERIOD : "Ripristino dati",
+	USER_LOADING : "Profilo loading",
+	TAG_CREATED : "Tag creata",
+	TAG_UPDATED : "Tag aggiornata",
+	CREATE_TAG : "Crea tag",
+
+	/* 1.0.5 */
+	DEVICE_NOT_CONNECTED : "Si prega, connettersi al telefono orologio",
+	INSTALL_HOST_APP : "Si prega, connettersi al telefono ed installare GearHub da Google Play",
+
+	/* 1.0.7 */
+	INVALID_PEERAGENT : "Peeragent disabili. Si prega, reinstallare GearHiv op riconnessione Vach",
+	
+	/*1.0.14*/
+	BLACK_NOTE : 'Nota nera',
+	
+	/*2.0.0*/
+	NO_TAGS : 'No etiquetas',
+	SHOW_WITH : 'Mostra con',
+	FONT_SIZE : 'dimensione del carattere',
+	EDIT : 'Modificare',
+	WAITING_CONNECTION : 'Connessione in attesa',
+	BLACK : 'Nera',
+	
+	NOTE_FONT: 'Nota font',
+	SMALL : 'Piccolo',
+	MEDIUM: 'Media',
+	LARGE : 'Grande',
+	SHARED : 'Condiviso',
+	OTHER: 'Altro',
+	CLEAR_DATA: 'Cancella i dati',
+	CLEAR_DATA_DESCRIPTION: 'E sincronizza di nuovo'
+};

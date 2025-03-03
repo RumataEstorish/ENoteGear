@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<!--suppress HtmlUnknownTag -->
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <meta name="description"
+          content="Evernote unofficial client for Samsung Gear"/>
+
+    <title>Evernote unofficial client</title>
+
+    <link rel="stylesheet" href="css/style.css"/>
+
+    <link rel="stylesheet" id="systemStyle"
+          href="lib/tau/wearable/theme/default/tau.min.css"/>
+
+    <link rel="stylesheet" media="all and (-tizen-geometric-shape: circle)"
+          href="lib/tau/wearable/theme/default/tau.circle-patch-0.0.0.1.min.css">
+
+    <link rel="stylesheet" href="css/squareStyle.css">
+
+    <link rel="stylesheet" media="all and (-tizen-geometric-shape: circle)"
+          href="css/circleStyle.css">
+
+    <link rel="stylesheet" media="all and (-tizen-geometric-shape: circle)"
+          href="css/enoteGearCircleStyle.css">
+
+    <script type="text/javascript" src="js/ui/windowStack.js"></script>
+    <script type="text/javascript" src="js/view.js"></script>
+    <script type="text/javascript" src="js/ui/scrollBack.js"></script>
+    <script type="text/javascript" src="js/dexie-2.0.4.min.js"></script>
+    <script type="text/javascript" src="js/ui/contextMenu-1.0.1.1.js"></script>
+    <script type="text/javascript" src="js/log-1.0.1.1.js"></script>
+    <script type="text/javascript" src="js/ui/toastMessage-1.1.1.js"></script>
+    <script type="text/javascript" src="js/settings.js"></script>
+    <script type="text/javascript" src="js/ui/actionMenu-2.1.0.6.js"></script>
+    <script type="text/javascript" src="js/sorting.js"></script>
+    <script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+
+    <script type="text/javascript" src="lib/tau/wearable/js/tau.min.js"></script>
+    <script type="text/javascript" src="js/utils-2.1.4.11.js"></script>
+    <!--<script type="text/javascript" src="js/Evernote/protocol/contentType.js"></script>-->
+    <!--<script type="text/javascript" src="js/Evernote/protocol/operation.js"></script>-->
+    <script type="text/javascript" src="js/Evernote/protocol/packet.js"></script>
+    <script type="text/javascript" src="js/Evernote/evernote.js"></script>
+    <script type="text/javascript" src="js/Evernote/evernote.constants.js"></script>
+    <script type="text/javascript" src="js/Evernote/evernote.tags.js"></script>
+    <script type="text/javascript" src="js/Evernote/evernote.notes.js"></script>
+    <script type="text/javascript" src="js/Evernote/evernote.notebooks.js"></script>
+    <!--<script type="text/javascript" src="js/Evernote/actionRequest.js"></script>-->
+    <!-- <script type="text/javascript" src="js/sap-1.1.13.6.js"></script> -->
+    <script type="text/javascript" src="js/sap-2.0.3.4.js"></script>
+    <script type="text/javascript" src="js/ui/notesView.js"></script>
+    <script type="text/javascript" src="js/ui/tagsList.js"></script>
+    <!--<script type="text/javascript" src="js/ui/loadingNotes.js"></script>-->
+    <!--<script type="text/javascript" src="js/ui/noteCommands.js"></script>-->
+    <script type="text/javascript" src="js/ui/noteMenu.js"></script>
+
+    <script type="text/javascript" src="js/ui/virtualList-2.0.1.js"></script>
+    <!--<script type="text/javascript" src="js/ui/pageMenu.js"></script>-->
+    <script type="text/javascript" src="js/circle-helper-1.0.0.3.js"></script>
+
+    <script src="locales/en-us/language.js"></script>
+    <!--suppress HtmlUnknownTarget -->
+    <script src="language.js"></script>
+
+    <script type="text/javascript" src="js/main.js"></script>
+</head>
+
+<body>
+<div class="ui-page" id="pageCircleProgressBar"
+     data-enable-page-scroll="false">
+    <!-- <header class="ui-header">
+        <h2 id="circleProgressDescription" class="ui-title">Progress
+            Small</h2>
+    </header>
+     -->
+    <div class="ui-content content-padding">
+        <div class="result" id="result"></div>
+        <progress class="ui-circle-progress" id="circleprogress" max="100" value="20"></progress>
+        <!-- <div id="circleProgressDescription" class="ui-processing-text"></div> -->
+    </div>
+</div>
+
+<div class="ui-page ui-page-active" id="smallProcessingPage">
+    <div class="ui-content content-padding">
+        <div class="small-processing-container">
+            <div class="ui-processing" style="visibility: hidden;"></div>
+            <div id="smallProcessingDescription" class="ui-processing-text"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        (function () {
+            var page = document.getElementById("smallProcessingPage");
+            page.addEventListener("pageshow", function (event) {
+                var page = event.target, processing = page
+                    .querySelector(".ui-processing");
+                processing.style.visibility = "";
+            }, false);
+
+            page.addEventListener("pagebeforehide", function (event) {
+                var page = event.target, processing = page
+                    .querySelector(".ui-processing");
+                processing.style.visibility = "hidden";
+            }, false);
+        }());
+    </script>
+</div>
+
+<div id="mainMenu" class="ui-page">
+    <header class="ui-header">
+        <h2 class="ui-title"></h2>
+    </header>
+    <div class="ui-content">
+        <ul class="ui-listview">
+            <li id="notesViewDiv" class="ui-listview-divider"></li>
+
+            <li class="li-has-toggle" id="showUpdated">
+                <label>
+                    <div class="ui-toggleswitch">
+                        <input type="checkbox" class="ui-switch-input" checked="checked"/>
+                        <div class="ui-switch-button"></div>
+                    </div>
+                </label>
+            </li>
+
+            <li class="li-has-toggle" id="showTags">
+                <label>
+                    <div class="ui-toggleswitch">
+                        <input type="checkbox" class="ui-switch-input"/>
+                        <div class="ui-switch-button"></div>
+                    </div>
+                </label>
+            </li>
+
+            <li class="li-has-toggle li-has-multiline" id="blackNote">
+                <label>
+                    <span class="ui-li-sub-text li-text-sub"></span>
+                    <div class="ui-toggleswitch">
+                        <input type="checkbox" class="ui-switch-input" checked="checked"/>
+                        <div class="ui-switch-button"></div>
+                    </div>
+                </label>
+            </li>
+
+            <li id="notesSortingDiv" class="ui-listview-divider"></li>
+
+            <li class="li-has-multiline li-has-radio">
+                <label id="sortNewOldModified">
+                    <span class="ui-li-sub-text li-text-sub"></span>
+                    <input type="radio" name="sortNotes" checked="checked"/>
+                </label>
+            </li>
+
+            <li class="li-has-multiline li-has-radio">
+                <label id="sortOldNewModified">
+                    <span class="ui-li-sub-text li-text-sub"></span>
+                    <input type="radio" name="sortNotes" checked="checked"/>
+                </label>
+            </li>
+
+            <li class="li-has-multiline li-has-radio">
+                <label id="sortAZTitle">
+                    <span class="ui-li-sub-text li-text-sub"></span>
+                    <input type="radio" name="sortNotes" checked="checked"/>
+                </label>
+            </li>
+
+            <li class="li-has-multiline li-has-radio">
+                <label id="sortZATitle">
+                    <span class="ui-li-sub-text li-text-sub"></span>
+                    <input type="radio" name="sortNotes" checked="checked"/>
+                </label>
+            </li>
+
+            <li id="settingsDiv" class="ui-listview-divider"></li>
+
+            <li class="li-has-multiline">
+                <a href="#" id="noteFontSize">
+                    <span class="ui-li-sub-text li-text-sub"></span>
+                </a>
+            </li>
+
+            <li class="li-has-multiline li-has-toggle" id="syncOnStartLi">
+                <label id="syncOnStart">
+                    <span class="li-text-sub ui-li-sub-text"></span>
+                    <div class="ui-toggleswitch">
+                        <input class="ui-switch-input" type="checkbox"/>
+                        <div class="ui-switch-button"></div>
+                    </div>
+                </label>
+            </li>
+
+            <li id="fullSync" class="li-has-multiline">
+                <a href="#">
+                    <span class="ui-li-sub-text li-text-sub"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="fontSizePage" class="ui-page">
+    <header class="ui-header">
+        <h2 class="ui-title"></h2>
+    </header>
+    <div class="ui-content">
+        <ul class="ui-listview">
+            <li style="font-size: 1.25rem" class="li-has-radio" id="fontSizeSmall">
+                <label><input type="radio" name="selectFont"/></label>
+            </li>
+            <li style="font-size: 1.65rem" class="li-has-radio" id="fontSizeMedium">
+                <label><input type="radio" name="selectFont"/></label>
+            </li>
+            <li style="font-size: 2rem" class="li-has-radio" id="fontSizeLarge">
+                <label><input type="radio" name="selectFont"/></label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="notepage" class="ui-page" style="overflow: hidden">
+    <header class="ui-header ui-header-small ui-has-more">
+        <h2 class="ui-title"></h2>
+        <button id="noteMenuButtonCircle" style="z-index: 1000" type="button"
+                onclick="noteMenuClick()" class="ui-more ui-more-black"></button>
+        <button id="noteMenuButtonSquare" style="z-index: 1000" type="button"
+                onclick="noteMenuClick()" class="ui-more ui-icon-overflow"></button>
+    </header>
+    <div id="notepageContent" class="ui-content"
+         style="background: black; height: 100%; overflow: hidden">
+        <iframe
+                style="border-style: none; height: 100%; width: 100%; min-height: 100%; background: black; list-style: circle; margin: 0; padding: 0; overflow-x: hidden"
+                id="notePreview" src="note.html"></iFrame>
+    </div>
+</div>
+
+<div id="noteInfoPage" class="ui-page">
+    <header class="ui-header">
+        <h2 class="ui-title">Note</h2>
+    </header>
+    <div class="ui-content">
+        <ul class="ui-listview">
+            <li class="li-has-multiline li-has-next-depth"
+                onclick="editTitleClick()"><label id="titleMenu"><span
+                    id="noteTitle" class="ui-li-sub-text li-text-sub"></span></label></li>
+            <li class="li-has-multiline li-has-next-depth"><label id="notebookMenu"><span class="ui-li-sub-text li-text-sub"></span></label></li>
+            <li id="noteContentLi" onclick="editContentClick()"
+                class="li-has-multiline li-has-next-depth"><label
+                    id="contentMenu"><span id="noteContent"
+                                           class="ui-li-sub-text li-text-sub"></span></label></li>
+            <li class="li-has-multiline li-has-next-depth"
+                onclick="pickTagsClick()"><label id="tagsMenu"><span
+                    id="tagsSpan" class="ui-li-sub-text li-text-sub"></span></label></li>
+
+        </ul>
+    </div>
+    <footer class="ui-footer ui-bottom-button">
+        <button class="ui-btn" onclick="createNoteConfirm()">OK</button>
+    </footer>
+</div>
+
+<div id="notesTagPage" class="ui-page">
+    <header class="ui-header ui-has-more">
+        <h2 class="ui-title"></h2>
+        <button type="button" style="z-index: 1000" onclick="showMenu()"
+                class="ui-more ui-icon-overflow"></button>
+    </header>
+    <div class="ui-content">
+        <ul class="ui-listview" id="notesTagPageList"></ul>
+    </div>
+</div>
+
+<div id="notesNotebookPage" class="ui-page">
+    <header class="ui-header ui-has-more">
+        <h2 class="ui-title"></h2>
+        <button type="button" style="z-index: 1000"
+                onclick="showMenu()" class="ui-more ui-icon-overflow"></button>
+    </header>
+    <div class="ui-content">
+        <ul class="ui-listview" id="notesNotebookPageList"></ul>
+    </div>
+</div>
+
+
+<div id="notebooksPage" class="ui-page">
+    <header class="ui-header ui-has-more">
+        <h2 class="ui-title">Notebooks</h2>
+        <button type="button" style="z-index: 1000" onclick="showMenu()"
+                class="ui-more ui-icon-overflow"></button>
+    </header>
+    <div class="ui-content">
+        <ul class="ui-listview ui-virtuallistview"></ul>
+    </div>
+</div>
+
+<div id="selectNotebookPage" class="ui-page">
+    <header class="ui-header">
+        <h2 id="notePopupHeader" class="ui-title"></h2>
+    </header>
+    <div class="ui-content">
+        <ul class="ui-listview"></ul>
+    </div>
+</div>
+
+<div id="notesListPage" class="ui-page">
+    <header class="ui-header ui-has-more">
+        <h2 class="ui-title"></h2>
+        <button type="button" style="z-index: 50" onclick="showMenu()"
+                class="ui-more ui-icon-overflow"></button>
+    </header>
+    <div class="ui-content">
+        <ul id="notesListPageList" class="ui-listview ui-virtuallistview"></ul>
+    </div>
+</div>
+
+<div id="tagsPage" class="ui-page">
+    <header class="ui-header ui-has-more">
+        <h2 class="ui-title">Pick tags</h2>
+        <button type="button" style="z-index: 1000" id="tagsMenuBtn"
+                onclick="showMenu()" class="ui-more ui-icon-overflow"></button>
+        <button type="button" style="z-index: 1000" id="tagsAcceptBtn"
+                class="ui-more ui-icon-tick"></button>
+    </header>
+
+    <div id="tagsIndexBar"
+         data-index="A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,А,Б,В,Г,Д,Е,Ё,Ж,З,И,К,Л,М,Н,О,П,Р,С,Т,У,Ф,Х,Ц,Ч,Ш,Щ">
+    </div>
+
+    <section id="tagsContent" class="ui-content">
+        <ul class="ui-listview ui-snap-listview" id="tagsList">
+
+        </ul>
+    </section>
+</div>
+
+<div id="userPage" class="ui-page">
+    <header class="ui-header ui-has-more">
+        <h2 class="ui-title">Notebooks</h2>
+        <button type="button" style="z-index: 1000" onclick="showMenu()"
+                class="ui-more ui-icon-overflow"></button>
+    </header>
+    <div class="ui-content">
+        <ul class="ui-listview">
+            <!-- <li class="li-has-multiline">
+                <a href="#" id="userName">
+                    <span class="ui-li-sub-text li-text-sub"></span>
+                </a>
+            </li> -->
+            <li class="li-has-multiline"><a href="#" id="userEmail"> <span
+                    class="ui-li-sub-text li-text-sub"></span>
+            </a></li>
+            <li class="li-has-multiline"><a href="#" id="evernoteUserEmail">
+                <span class="ui-li-sub-text li-text-sub"></span>
+            </a></li>
+            <li class="li-has-multiline"><a href="#" id="userDataUsage">
+                <span class="ui-li-sub-text li-text-sub"></span>
+            </a></li>
+            <li class="li-has-multiline"><a href="#"
+                                            id="userNextDataPeriod"> <span
+                    class="ui-li-sub-text li-text-sub"></span></a></li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/input/typeGear-1.0.0.js"></script>
+<script type="text/javascript" src="js/input/input-1.0.4.3.js"></script>
+<script type="text/javascript" src="js/utils-2.1.4.11.js"></script>
+</body>
+</html>
